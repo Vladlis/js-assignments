@@ -417,9 +417,21 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  */
 function sortCitiesArray(arr) {
-   //todo
-   let sort = arr.sort((a, b) => a.country === b.country ? a.city > b.city : a.country > b.country);
-   throw new Error('Not implemented');
+   return arr.sort(function(a, b) {
+      if (a.country === b.country) {
+         if (a.city > b.city) {
+            return 1;
+         } else if (a.city < b.city) {
+            return -1;
+         } else {
+            return 0
+         }
+      } else if (a.country > b.country) {
+         return 1;
+      } else {
+         return -1;
+      }
+   });
 }
 
 /**
@@ -441,15 +453,11 @@ function sortCitiesArray(arr) {
  *           [0,0,0,0,1]]   
  */
 function getIdentityMatrix(n) {
-   // todo
-   let matrix = (new Array(n));
-   matrix.map(() => new Array(n));
-   matrix.map((val, id) => {
-      console.log(val);
-      console.log(id);
-      val[id] = 1
+   return new Array(n).fill([]).map(function(v, id) {
+      let row = new Array(n).fill(0);
+      row.splice(id, 1, 1);
+      return row;
    });
-   throw new Error('Not implemented');
 }
 
 /**
@@ -516,6 +524,22 @@ function distinct(arr) {
  *   }
  */
 function group(array, keySelector, valueSelector) {
+   let set = new Set(array.map(keySelector));
+   set = [...set].map(function (k) {
+      return {key: k, value: []};
+   });
+   console.log(set);
+   let map = new Map();
+   array.map(function(v) {
+      let key = keySelector(v);
+      let value = valueSelector[v];
+      if (map.has(key)) {
+         map.get(key).push(value)
+      } else {
+         let values = [value];
+         map.set(key, values);
+      }
+   });
    throw new Error('Not implemented');
 }
 
